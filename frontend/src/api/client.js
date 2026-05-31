@@ -8,6 +8,8 @@ const api = axios.create({
   },
 });
 
+console.log("API URL:", import.meta.env.VITE_API_URL);
+
 // ─── Request interceptor — attach auth token ─────────────────────────────────
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
