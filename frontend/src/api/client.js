@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 // ─── Request interceptor — attach auth token ─────────────────────────────────
-client.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -17,7 +18,7 @@ client.interceptors.request.use((config) => {
 });
 
 // ─── Response interceptor — handle auth / subscription errors globally ────────
-client.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
@@ -56,4 +57,4 @@ client.interceptors.response.use(
   }
 );
 
-export default client;
+export default api;

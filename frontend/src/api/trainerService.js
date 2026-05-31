@@ -1,9 +1,9 @@
-import client from './client';
+import api from './client';
 
 export const trainerService = {
-  getAll: () => client.get('/trainers'),
-  create: (data) => client.post('/trainers', data),
-  update: (id, data) => client.put(`/trainers/${id}`, data),
-  assignMember: (id, memberId) => client.post(`/trainers/${id}/assign`, { memberId }),
-  remove: (id) => client.delete(`/trainers/${id}`),
+  getAll: () => api.get('/api/trainers'),
+  create: (data) => api.post('/api/trainers', data),
+  update: (id, data) => api.put(`/api/trainers/${id}`, data),
+  assignMember: (id, memberId) => api.post(`/api/trainers/${id}/assign`, { memberId }),
+  remove: (id) => api.delete(`/api/trainers/${id}`),
 };

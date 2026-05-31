@@ -3,7 +3,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useAuth } from '../context/AuthContext';
-import client from '../api/client';
+import api from '../api/client';
 
 const Settings = () => {
   const { user } = useAuth();
@@ -33,7 +33,7 @@ const Settings = () => {
 
     setPwLoading(true);
     try {
-      await client.put('/auth/change-password', {
+      await api.put('/api/auth/change-password', {
         currentPassword: pwForm.currentPassword,
         newPassword: pwForm.newPassword,
       });

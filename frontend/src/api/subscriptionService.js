@@ -1,4 +1,4 @@
-import client from './client';
+import api from './client';
 
 /**
  * Subscription Service — GymOS SaaS
@@ -14,21 +14,21 @@ const subscriptionService = {
    * Get current subscription status, usage stats, plan history,
    * and the Razorpay key ID needed for checkout.
    */
-  getStatus: () => client.get('/subscription'),
+  getStatus: () => api.get('/api/subscription'),
 
   /**
    * Step 1 — Create a Razorpay order for the given plan.
    * Returns { orderId, amount, currency, razorpayKeyId, gymName, ... }
    * @param {string} plan - 'starter' | 'growth' | 'enterprise'
    */
-  createOrder: (plan) => client.post('/subscription/create-order', { plan }),
+  createOrder: (plan) => api.post('/api/subscription/create-order', { plan }),
 
   /**
    * Step 2 — Send Razorpay payment response to backend for HMAC verification.
    * Plan is only activated if signature verification passes.
    * @param {{ razorpay_order_id, razorpay_payment_id, razorpay_signature, plan }} payload
    */
-  verifyPayment: (payload) => client.post('/subscription/verify-payment', payload),
+  verifyPayment: (payload) => api.post('/api/subscription/verify-payment', payload),
 
   /**
    * Dynamically load the Razorpay checkout.js script.

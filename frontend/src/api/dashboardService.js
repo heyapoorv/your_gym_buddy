@@ -1,11 +1,11 @@
-import client from './client';
+import api from './client';
 
 export const dashboardService = {
-  getMetrics: () => client.get('/dashboard'),
-  getGyms: (params) => client.get('/dashboard/gyms', { params }),
-  getGymDetails: (id) => client.get(`/dashboard/gyms/${id}`),
-  updateGymPlan: (id, planData) => client.put(`/dashboard/gyms/${id}/plan`, planData),
-  editGym: (id, gymData) => client.put(`/dashboard/gyms/${id}`, gymData),
-  deleteGym: (id) => client.delete(`/dashboard/gyms/${id}`),
+  getMetrics: () => api.get('/api/dashboard'),
+  getGyms: (params) => api.get('/api/dashboard/gyms', { params }),
+  getGymDetails: (id) => api.get(`/api/dashboard/gyms/${id}`),
+  updateGymPlan: (id, planData) => api.put(`/api/dashboard/gyms/${id}/plan`, planData),
+  editGym: (id, gymData) => api.put(`/api/dashboard/gyms/${id}`, gymData),
+  deleteGym: (id) => api.delete(`/api/dashboard/gyms/${id}`),
 };
 

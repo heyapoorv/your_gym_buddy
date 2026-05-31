@@ -1,8 +1,8 @@
-import client from './client';
+import api from './client';
 
 export const paymentService = {
-  getStats: () => client.get('/payments/stats'),
-  getAll: (params = {}) => client.get('/payments', { params }),
-  create: (data) => client.post('/payments', data),
-  update: (id, data) => client.put(`/payments/${id}`, data),
+  getStats: () => api.get('/api/payments/stats'),
+  getAll: (params = {}) => api.get('/api/payments', { params }),
+  create: (data) => api.post('/api/payments', data),
+  update: (id, data) => api.put(`/api/payments/${id}`, data),
 };

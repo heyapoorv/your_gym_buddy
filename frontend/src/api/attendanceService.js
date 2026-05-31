@@ -1,8 +1,8 @@
-import client from './client';
+import api from './client';
 
 export const attendanceService = {
-  getTodayStats: () => client.get('/attendance/today'),
-  getHistory: (params = {}) => client.get('/attendance', { params }),
-  checkIn: (data) => client.post('/attendance/checkin', data),
-  checkOut: (id) => client.put(`/attendance/checkout/${id}`),
+  getTodayStats: () => api.get('/api/attendance/today'),
+  getHistory: (params = {}) => api.get('/api/attendance', { params }),
+  checkIn: (data) => api.post('/api/attendance/checkin', data),
+  checkOut: (id) => api.put(`/api/attendance/checkout/${id}`),
 };

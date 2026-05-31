@@ -9,9 +9,20 @@ const app = express();
 
 // ─── Security & Request Middleware ────────────────────────────────────────
 app.use(helmet());
+const ALLOWED_ORIGINS = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((o) => o.trim())
+  : [];
+
 app.use(
   cors({
-    origin: true,
+    origin: (origin, callback) => {
+      // Allow requests with no Origin (mobile apps, curl, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+      // In development or if no CLIENT_URL is set, allow all origins
+      if (ALLOWED_ORIGINS.length === 0) return callback(null, true);
+      if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: Origin '${origin}' not allowed`));
+    },
     credentials: true,
   })
 );

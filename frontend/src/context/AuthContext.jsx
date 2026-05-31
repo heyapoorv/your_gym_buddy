@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import client from '../api/client';
+import api from '../api/client';
 
 const AuthContext = createContext();
 
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const { data } = await client.get('/auth/profile');
+        const { data } = await api.get('/api/auth/profile');
         if (data.success) {
           const sessionUser = buildSessionUser(data.data.user, data.data.gym);
           setUser(sessionUser);
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
    * On failure: returns { success: false, message }.
    */
   const login = async (email, password) => {
-    const { data } = await client.post('/auth/login', { email, password });
+    const { data } = await api.post('/api/auth/login', { email, password });
     const sessionUser = buildSessionUser(data.data.user);
     persistSession(sessionUser, data.data.token);
     return { success: true };
@@ -85,14 +85,14 @@ export const AuthProvider = ({ children }) => {
    * Creates the user and their gym in one call, bootstraps trial.
    */
   const signup = async (userData) => {
-    const { data } = await client.post('/auth/signup', userData);
+    const { data } = await api.post('/api/auth/signup', userData);
     const sessionUser = buildSessionUser(data.data.user);
     persistSession(sessionUser, data.data.token);
     return { success: true };
   };
 
   const loginAsDemo = async () => {
-    const { data } = await client.post('/auth/demo');
+    const { data } = await api.post('/api/auth/demo');
     const sessionUser = buildSessionUser(data.data.user);
     persistSession(sessionUser, data.data.token);
     return { success: true };
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
 
   const completeOnboarding = async () => {
     try {
-      await client.put('/auth/onboarding');
+      await api.put('/api/auth/onboarding');
       // Update local state instead of doing full refresh
       const updatedUser = { ...user, gymOnboardingComplete: true };
       persistSession(updatedUser, localStorage.getItem('token'));
@@ -116,7 +116,7 @@ export const AuthProvider = ({ children }) => {
    */
   const refreshSubscription = useCallback(async () => {
     try {
-      const { data } = await client.get('/auth/profile');
+      const { data } = await api.get('/api/auth/profile');
       if (data.success) {
         const sessionUser = buildSessionUser(data.data.user, data.data.gym);
         localStorage.setItem('gymos_user', JSON.stringify(sessionUser));
